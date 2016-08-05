@@ -4,7 +4,10 @@ import requests, time
 from bs4 import BeautifulSoup
 from pushbullet import Pushbullet
 
-pb = Pushbullet("API KEY")
+with open("apikey.txt") as apikey_txt:
+	apikey = apikey_txt.read().rstrip()
+	print(apikey)
+	pb = Pushbullet(apikey)
 
 # Only first page
 catalog = requests.get("http://www.sweclockers.com/forum/118-annonskommentarer")
@@ -12,7 +15,7 @@ catalog = BeautifulSoup(catalog.content, "html.parser")
 
 # Gets the keywords from a txt file
 with open("keywords.txt") as keywords_txt:
-		keywords = keywords_txt.read().split(",")
+		keywords = keywords_txt.read().rstrip().split(",")
 
 print(keywords)
 
@@ -38,7 +41,7 @@ class sweclockers(object):
 				page = div
 		for p in page.find_all("p"):
 			text += str(p)
-	
+
 		return text
 
 	def amount_replies(self):
