@@ -1,10 +1,15 @@
 #! /bin/python3
 
-import requests, time
+import requests, time, os
 from bs4 import BeautifulSoup
 from pushbullet import Pushbullet
 
-with open("apikey.txt") as apikey_txt:
+if os.path.isfile("apikey.txt") == False:
+	with open("apikey.txt", "w") as apikey_txt:
+		apikey = input("Enter API key: ") + "\n"
+		apikey_txt.write(apikey)
+
+with open("apikey.txt", "r") as apikey_txt:
 	apikey = apikey_txt.read().rstrip()
 	print(apikey)
 	pb = Pushbullet(apikey)
